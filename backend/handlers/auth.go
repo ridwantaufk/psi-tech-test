@@ -72,23 +72,58 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.GenerateToken(user.ID, user.Username)
+	accessToken, err := utils.GenerateToken(user.ID, user.Username)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "gagal membuat token"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "gagal buat access token"})
 		return
 	}
 
-	//  cookie token
-	c.SetCookie("access_token", token, 3600*24, "/", "", false, true)
+	refreshToken, err := utils.GenerateRefreshToken(user.ID, user.Username)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "gagal buat refresh token"})
+		return
+	}
+
+	c.SetCookie("access_token", accessToken, 3600*24, "/", "", false, true)
+	c.SetCookie("refresh_token", refreshToken, 3600*24*7, "/", "", false, true)
 
 	c.JSON(http.StatusOK, gin.H{
-		"message":  "login berhasil",
-		"token":    token,
-		"id":       user.ID,
-		"username": user.Username,
+		"token_type":    "Bearer",
+		"access_token":  accessToken,
+		"refresh_token": refreshToken,
+		"id":            user.ID,
+		"username":      user.Username,
 	})
 }
 func Logout(c *gin.Context) {
 	c.SetCookie("access_token", "", -1, "/", "", false, true)
 	c.JSON(http.StatusOK, gin.H{"message": "logout berhasil"})
+}
+
+func RefreshToken(c *gin.Context) {
+	refreshToken, err := c.Cookie("refresh_token")
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "refresh token tidak ada"})
+		return
+	}
+
+	claims, err := utils.ParseToken(refreshToken)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "refresh token invalid atau expired"})
+		return
+	}
+
+	newAccessToken, err := utils.GenerateToken(claims.ID, claims.Username)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "gagal generate token baru"})
+		return
+	}
+
+	c.SetCookie("access_token", newAccessToken, 3600*24, "/", "", false, true)
+
+	c.JSON(http.StatusOK, gin.H{
+		"access_token": newAccessToken,
+		"id":           claims.ID,
+		"username":     claims.Username,
+	})
 }

@@ -39,7 +39,17 @@ func ParseToken(tokenStr string) (*Claims, error) {
 		return nil, jwt.ErrSignatureInvalid
 	}
 
-
-	
 	return claims, nil
+}
+func GenerateRefreshToken(id, username string) (string, error) {
+	claims := Claims{
+		ID:       id,
+		Username: username,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(7 * 24 * time.Hour)), // 7 hari
+			IssuedAt:  jwt.NewNumericDate(time.Now()),
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 }

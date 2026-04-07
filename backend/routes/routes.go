@@ -11,6 +11,7 @@ func Setup(r *gin.Engine) {
 	{
 		auth.POST("/register", handlers.Register)
 		auth.POST("/login", handlers.Login)
+		auth.POST("/refresh", handlers.RefreshToken)
 		auth.POST("/logout", middleware.JWTMiddleware(), handlers.Logout)
 	}
 
