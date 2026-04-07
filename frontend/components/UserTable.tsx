@@ -38,7 +38,7 @@ const columns: ColumnsType<ManipulatedUser> = [
         key: 'location',
         render: (loc: string) => (
             <Tooltip title={loc}>
-                <Text type="secondary" style={{ fontSize: 12 }}>
+                <Text type="secondary" className="address-detail-text">
                     (Alamat Detail)
                 </Text>
             </Tooltip>
@@ -88,19 +88,20 @@ export default function UserTable({
 }: Props) {
     return (
         <>
-            <Row gutter={12} style={{ marginBottom: 16 }} align="middle">
+            <Row gutter={12} className="table-toolbar" align="middle">
                 <Col flex="auto">
                     <Input
-                        placeholder="Search..."
-                        prefix={<SearchOutlined style={{ color: '#bbb' }} />}
+                        className="search-input"
+                        placeholder="Cari nama, email, atau lokasi"
+                        prefix={<SearchOutlined className="search-icon" />}
                         value={search}
                         onChange={e => onSearch(e.target.value)}
                         allowClear
-                        style={{ maxWidth: 360 }}
                     />
                 </Col>
                 <Col>
                     <Button
+                        className="refresh-button"
                         type="primary"
                         icon={<ReloadOutlined />}
                         onClick={onRefresh}
@@ -111,6 +112,7 @@ export default function UserTable({
                 </Col>
             </Row>
             <Table
+                className="user-table"
                 columns={columns}
                 dataSource={data}
                 loading={loading}

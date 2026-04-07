@@ -21,26 +21,30 @@ export default function HomePage() {
   } = useUsers()
 
   return (
-    <div style={{ padding: '32px 40px' }}>
-      <Title level={4} style={{ marginBottom: 16 }}>
-        List
-      </Title>
+    <main className="home-page">
+      <header className="home-header">
+        <Title level={3} className="home-title">
+          Daftar isi data
+        </Title>
+      </header>
 
-      <UserTable
-        data={users}
-        loading={loading}
-        search={search}
-        page={page}
-        pageSize={pageSize}
-        onSearch={setSearch}
-        onPageChange={(p, ps) => {
-          setPage(p)
-          setPageSize(ps)
-        }}
-        onRefresh={fetchData}
-      />
+      <section className="home-section">
+        <UserTable
+          data={users}
+          loading={loading}
+          search={search}
+          page={page}
+          pageSize={pageSize}
+          onSearch={setSearch}
+          onPageChange={(p, ps) => {
+            setPage(p)
+            setPageSize(ps)
+          }}
+          onRefresh={fetchData}
+        />
+      </section>
 
       <ArrayManipulation />
-    </div>
+    </main>
   )
 }

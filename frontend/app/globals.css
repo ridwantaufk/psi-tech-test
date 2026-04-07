@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f7fb;
+  --foreground: #1f2937;
+  --muted: #64748b;
+  --surface: #ffffff;
+  --border: #e2e8f0;
+  --primary: #2563eb;
+  color-scheme: light;
 }
 
 @theme inline {
@@ -12,15 +17,127 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  background: var(--background);
 }
 
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), "Segoe UI", Tahoma, sans-serif;
+}
+
+.home-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 24px 36px;
+}
+
+.home-header {
+  margin-bottom: 16px;
+}
+
+.home-title.ant-typography {
+  margin-bottom: 6px !important;
+}
+
+.home-subtitle.ant-typography {
+  margin: 0 !important;
+  color: var(--muted) !important;
+}
+
+.home-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.table-toolbar {
+  margin-bottom: 14px !important;
+}
+
+.search-input {
+  max-width: 380px;
+}
+
+.search-icon {
+  color: #94a3b8;
+}
+
+.search-input.ant-input-affix-wrapper:focus-within,
+.search-input.ant-input-affix-wrapper-focused {
+  border-color: rgba(37, 99, 235, 0.45);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+}
+
+.refresh-button.ant-btn {
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.address-detail-text.ant-typography {
+  font-size: 12px;
+}
+
+.user-table .ant-table-container {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.user-table .ant-table-thead > tr > th {
+  background: #f8fafc !important;
+  color: #334155 !important;
+  font-weight: 600;
+}
+
+.user-table .ant-table-tbody > tr:hover > td {
+  background: #f8fbff !important;
+}
+
+.array-card.ant-card {
+  margin-top: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.array-tag-list {
+  row-gap: 6px;
+}
+
+.array-tag.ant-tag {
+  margin-bottom: 6px;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .home-page {
+    padding: 20px 14px 26px;
+  }
+
+  .home-section {
+    padding: 12px;
+  }
+
+  .search-input {
+    max-width: 100%;
+  }
+
+  .table-toolbar .ant-col:last-child {
+    width: 100%;
+  }
+
+  .refresh-button.ant-btn {
+    width: 100%;
+  }
 }

@@ -26,13 +26,13 @@ export default function ArrayManipulation() {
     )
 
     return (
-        <Card title="Hasil arrray manipulation" style={{ marginTop: 32 }} size="small">
-            <Space wrap>
+        <Card title="Hasil array manipulation" className="array-card" size="small">
+            <Space wrap className="array-tag-list">
                 {items.map((item, i) => (
                     <Tag
                         key={i}
                         color={item.toLowerCase().includes('diskon') ? 'blue' : 'green'}
-                        style={{ fontSize: 13, padding: '4px 10px', marginBottom: 6 }}
+                        className="array-tag"
                     >
                         {item}
                     </Tag>
